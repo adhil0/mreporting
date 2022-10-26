@@ -137,6 +137,46 @@ class PluginMreportingInventory Extends PluginMreportingBaseclass {
       return $datas;
    }
 
+   function reportPieTotalComputers($config = []) {
+      $_SESSION['mreporting_selector']['reportPieTotalComputers'] = ['multiplestates'];
+      return $this->computersTotal($config);
+   }
+
+   function computersTotal($config = []) {
+      global $DB;
+
+      $sql_entities = " AND c.`entities_id` IN ({$this->where_entities})";
+      $sql_states   = self::getStateCondition('c.states_id');
+      $query = "SELECT t.`name`   as Type,
+                       count(*) as Total,
+                       count(*) * 100 / (SELECT count(*)
+                           FROM glpi_computers     as c,
+                                glpi_computertypes as t
+                           WHERE c.`is_deleted` = 0
+                                 AND c.`is_template` = 0
+                                 AND c.`computertypes_id` = t.`id`
+                                 $sql_entities
+                                 $sql_states) as Percent
+         FROM glpi_computers     as c,
+              glpi_computertypes as t
+         WHERE c.`computertypes_id` = t.`id`
+               $sql_entities
+               $sql_states
+               AND c.`is_deleted` = 0
+               AND c.`is_template` = 0
+         GROUP BY t.`name`
+         ORDER BY Total DESC";
+      $result = $DB->query($query);
+      $datas = [];
+      while ($computer = $DB->fetchAssoc($result)) {
+         $percent = round($computer['Percent'], 2);
+         $datas['datas'][$computer['Type']." ($percent %)"] = $computer['Total'];
+      }
+
+      return $datas;
+   }
+
+
    /* ==== COMPUTER'S TYPE REPORTS ==== */
    function reportPieComputersByType($config = []) {
       $_SESSION['mreporting_selector']['reportPieComputersByType'] = ['multiplestates'];

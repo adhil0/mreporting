@@ -147,4 +147,9 @@ $LANG['plugin_mreporting']['Inventory'] = [
       'desc'     => "Bars",
       'category' => "Entity",
     ],
+    'reportPieTotalComputers' => [
+      'title'    => "Computers Total",
+      'desc'     => "Pie",
+      'category' => "Inventaire",
+   ],
 ];
