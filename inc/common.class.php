@@ -1829,9 +1829,11 @@ class PluginMreportingCommon extends CommonDBTM {
     * @param  integer $delay     if $_REQUET date fields not provided,
     *                            generate them from $delay (in days)
     * @param  string $randname   random string (to prevent conflict in js selection)
+    * @param  bool $runningtotal whether or not you are calculating a running total
+    * @param  string $period_sort format of the selected period
     * @return string             The sql test to insert in your query
     */
-   static function getSQLDate($field = "`glpi_tickets`.`date`", $delay = 365, $randname = '') {
+   static function getSQLDate($field = "`glpi_tickets`.`date`", $delay = 365, $randname = '', $runningtotal = false, $period_sort = '') {
 
       if (empty($_SESSION['mreporting_values']['date1'.$randname])) {
          $_SESSION['mreporting_values']['date1'.$randname] = date("Y-m-d", time() - ($delay * 24 * 60 * 60));
@@ -1856,10 +1858,21 @@ class PluginMreportingCommon extends CommonDBTM {
             ];
       }
 
-      $begin=date("Y-m-d H:i:s", $time1);
-      $end=date("Y-m-d H:i:s", $time2);
-
-      return "($field >= '$begin' AND $field <= ADDDATE('$end', INTERVAL 1 DAY) )";
+      if ($runningtotal) {
+         $begin=date("ymd", $time1);
+         $end=date("ymd", $time2);
+         if (empty($period_sort)) {
+            $test="($field >= '$begin' AND $field <= DATE_FORMAT(ADDDATE('$end', INTERVAL 1 DAY), '%y%m%d' ))";
+         } else {
+            $test="($field >= '$begin' AND $field <= DATE_FORMAT(ADDDATE('$end', INTERVAL 1 DAY), $period_sort ))";
+         }
+      } else {
+         $begin=date("Y-m-d H:i:s", $time1);
+         * @param  string $period_sort format of the selected period     $end=date("Y-m-d H:i:s", $time2);
+         $test="($field >= '$begin' AND $field <= ADDDATE('$end', INTERVAL 1 DAY) )";
+      }
+      
+      return $test;
    }
 
 

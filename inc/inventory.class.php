@@ -176,6 +176,52 @@ class PluginMreportingInventory Extends PluginMreportingBaseclass {
       return $datas;
    }
 
+   function reportLineNbComputer($config = []) {
+      $_SESSION['mreporting_selector']['reportLineNbComputer'] = ['dateinterval', 'period'];
+
+      return $this->reportAreaNbComputer($config, false);
+   }
+
+   function reportAreaNbComputer($config = [], $area = true) {
+      global $DB;
+
+      $_SESSION['mreporting_selector']['reportAreaNbComputer'] = ['dateinterval', 'period'];
+
+      $datas = [];
+
+      //Init delay value
+      $this->sql_date = PluginMreportingCommon::getSQLDate("data.period",
+                                                           $config['delay'],
+                                                           $config['randname'],
+                                                           true,
+                                                           $this->period_sort);
+      echo "script>console.log('variable: " . $this->sql_date . "'); </script>";
+      echo "script>console.log('variable: " . $query . "'); </script>";
+
+      $query = "SELECT
+         *
+      FROM
+      (
+         SELECT
+            DISTINCT DATE_FORMAT(date_creation,'".$this->period_sort."') as period,
+            DATE_FORMAT(date_creation, '".$this->period_label."') as period_name,
+            SUM(COUNT(id)) OVER (
+               ORDER BY
+               DATE_FORMAT(date_creation, '".$this->period_sort."') ROWS UNBOUNDED PRECEDING
+         ) as nb
+         FROM glpi_computers
+         WHERE glpi_computers.entities_id IN ('0')
+            AND glpi_computers.is_deleted = '0'
+         GROUP BY period
+         ORDER BY period
+      ) data WHERE {$this->sql_date}";
+      $res = $DB->query($query);
+      while ($data = $DB->fetchAssoc($res)) {
+         $datas['datas'][$data['period_name']] = $data['nb'];
+      }
+
+      return $datas;
+   }
 
    /* ==== COMPUTER'S TYPE REPORTS ==== */
    function reportPieComputersByType($config = []) {

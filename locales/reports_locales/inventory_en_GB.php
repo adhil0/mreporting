@@ -152,4 +152,14 @@ $LANG['plugin_mreporting']['Inventory'] = [
       'desc'     => "Pie",
       'category' => "Inventaire",
    ],
+   'reportLineNbComputer' => [
+      'title'    => "Number of computer evolution over the period",
+      'desc'     => "Line",
+      'category' => "Inventaire",
+   ],
+   'reportAreaNbComputer' => [
+      'title'    => "Number of Computer evolution over the period",
+      'desc'     => "Area",
+      'category' => "Inventaire",
+   ],
 ];
