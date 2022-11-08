@@ -1868,7 +1868,7 @@ class PluginMreportingCommon extends CommonDBTM {
          }
       } else {
          $begin=date("Y-m-d H:i:s", $time1);
-         * @param  string $period_sort format of the selected period     $end=date("Y-m-d H:i:s", $time2);
+         $end=date("Y-m-d H:i:s", $time2);
          $test="($field >= '$begin' AND $field <= ADDDATE('$end', INTERVAL 1 DAY) )";
       }
       
