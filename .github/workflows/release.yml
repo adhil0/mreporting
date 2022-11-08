@@ -2,6 +2,8 @@ name: "Plugin release"
 
 on:
   push:
+    branches:    
+       - add_report
     tags:
        - '*'
 
