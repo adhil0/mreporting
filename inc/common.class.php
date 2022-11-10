@@ -1862,18 +1862,18 @@ class PluginMreportingCommon extends CommonDBTM {
          $begin=date("ymd", $time1);
          $end=date("ymd", $time2);
          if (empty($period_sort)) {
-            $test="($field >= '$begin' AND $field <= DATE_FORMAT(ADDDATE('$end', INTERVAL 1 DAY), '%y%m%d' ))";
+                 $test="($field >= '$begin' AND $field <= DATE_FORMAT(ADDDATE('$end', INTERVAL 1 DAY), '%y%m%d' ))";
          } else {
-            $test="($field >= '$begin' AND $field <= DATE_FORMAT(ADDDATE('$end', INTERVAL 1 DAY), $period_sort ))";
+         $test="($field >= '$begin' AND $field <= DATE_FORMAT(ADDDATE('$end', INTERVAL 1 DAY), '%y%m%d' ))";
          }
-      } else {
-         $begin=date("Y-m-d H:i:s", $time1);
-         $end=date("Y-m-d H:i:s", $time2);
-         $test="($field >= '$begin' AND $field <= ADDDATE('$end', INTERVAL 1 DAY) )";
-      }
-      
-      return $test;
-   }
+       } else {
+          $begin=date("ymd", $time1);
+          $end=date("ymd", $time2);
+          $test="($field >= '$begin' AND $field <= ADDDATE('$end', INTERVAL 1 DAY) )";
+       }
+ 
+       return $test;
+    }
 
 
    /**

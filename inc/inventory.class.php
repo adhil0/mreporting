@@ -195,9 +195,6 @@ class PluginMreportingInventory Extends PluginMreportingBaseclass {
                                                            $config['randname'],
                                                            true,
                                                            $this->period_sort);
-      echo "script>console.log('variable: " . $this->sql_date . "'); </script>";
-      echo "script>console.log('variable: " . $query . "'); </script>";
-
       $query = "SELECT
          *
       FROM
@@ -219,7 +216,6 @@ class PluginMreportingInventory Extends PluginMreportingBaseclass {
       while ($data = $DB->fetchAssoc($res)) {
          $datas['datas'][$data['period_name']] = $data['nb'];
       }
-
       return $datas;
    }
 
