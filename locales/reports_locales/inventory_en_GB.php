@@ -73,13 +73,13 @@ $LANG['plugin_mreporting']['Inventory'] = [
    'reportHbarComputersByStatus' => [
       'title'    => "Computers per status",
       'desc'     => "Bars",
-      'category' => "Statut",
+      'category' => "Status",
    ],
 
    'reportHbarPrintersByStatus' => [
       'title'    => "Printers per status",
       'desc'     => "Bars",
-      'category' => "Statut",
+      'category' => "Status",
    ],
 
    'reportHbarWindows' => [
