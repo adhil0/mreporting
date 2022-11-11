@@ -115,13 +115,13 @@ $LANG['plugin_mreporting']['Inventory'] = [
    'reportHbarComputersByAge' => [
       'title'    => "Computer per age",
       'desc'     => "Bars",
-      'category' => "Inventaire",
+      'category' => "Inventory",
    ],
 
    'reportPieComputersByAge' => [
       'title'    => "Computer per age",
       'desc'     => "Pie",
-      'category' => "Inventaire",
+      'category' => "Inventory",
    ],
 
    'reportHbarFusionInventory' => [
@@ -139,7 +139,7 @@ $LANG['plugin_mreporting']['Inventory'] = [
    'reportHbarMonitors' => [
       'title'    => "Screens per computer distribution",
       'desc'     => "Bars",
-      'category' => "Inventaire",
+      'category' => "Inventory",
    ],
 
     'reportHbarComputersByEntity' => [
@@ -150,16 +150,16 @@ $LANG['plugin_mreporting']['Inventory'] = [
     'reportPieTotalComputers' => [
       'title'    => "Computers Total",
       'desc'     => "Pie",
-      'category' => "Inventaire",
+      'category' => "Inventory",
    ],
    'reportLineNbComputer' => [
       'title'    => "Number of computer evolution over the period",
       'desc'     => "Line",
-      'category' => "Inventaire",
+      'category' => "Inventory",
    ],
    'reportAreaNbComputer' => [
       'title'    => "Number of Computer evolution over the period",
       'desc'     => "Area",
-      'category' => "Inventaire",
+      'category' => "Inventory",
    ],
 ];
