@@ -137,6 +137,55 @@ class PluginMreportingInventory Extends PluginMreportingBaseclass {
       return $datas;
    }
 
+   /* ==== LAB REPORTS ==== */
+   function reportPieComputersByLab($config = []) {
+      $_SESSION['mreporting_selector']['reportPieComputersByLab'] = ['multiplestates'];
+      return $this->computersByLab($config);
+   }
+
+   function reportHbarComputersByLab($config = []) {
+      $_SESSION['mreporting_selector']['reportHbarComputersByLab'] = ['multiplestates'];
+      return $this->computersByLab($config);
+   }
+
+   function computersByLab($config = []) {
+      global $DB;
+
+      $sql_entities = " AND c.`entities_id` IN ({$this->where_entities})";
+      $sql_states   = self::getStateCondition('c.states_id');
+
+      $query = "SELECT l.`name`   as Lab,
+                       count(*) as Total,
+                       count(*) * 100 / (SELECT count(*)
+                           FROM glpi_computers     as c,
+                                glpi_locations as l
+                           WHERE c.`is_deleted` = 0
+                                 AND c.`is_template` = 0
+                                 AND c.`locations_id` = l.`id`
+                                 $sql_entities
+                                 $sql_states) as Percent
+         FROM glpi_computers     as c,
+              glpi_locations as l
+         WHERE c.`locations_id` = l.`id`
+               $sql_entities
+               $sql_states
+               AND c.`is_deleted` = 0
+               AND c.`is_template` = 0
+         GROUP BY l.`name`
+         ORDER BY Total DESC";
+      $result = $DB->query($query);
+
+      $datas = [];
+      while ($computer = $DB->fetchAssoc($result)) {
+         if ($computer['Total']) {
+            $percent = round($computer['Percent'], 2);
+            $datas['datas'][$computer['Lab']." ($percent %)"] = $computer['Total'];
+         }
+      }
+
+      return $datas;
+   }
+
    function reportPieTotalComputers($config = []) {
       $_SESSION['mreporting_selector']['reportPieTotalComputers'] = ['multiplestates'];
       return $this->computersTotal($config);

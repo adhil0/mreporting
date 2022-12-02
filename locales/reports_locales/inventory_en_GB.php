@@ -162,4 +162,15 @@ $LANG['plugin_mreporting']['Inventory'] = [
       'desc'     => "Area",
       'category' => "Inventory",
    ],
+   'reportHbarComputersByLab' => [
+      'title'    => "Computers per manufacturer",
+      'desc'     => "Bars",
+      'category' => "Inventory",
+   ],
+
+   'reportPieComputersByLab' => [
+      'title'    => "Computers per manufacturer",
+      'desc'     => "Pie",
+      'category' => "Inventory",
+   ],
 ];
